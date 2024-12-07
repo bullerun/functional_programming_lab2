@@ -34,5 +34,7 @@ let prop_fold_commutative =
       sum_left = sum_right)
 
 let () =
-  let tests = [ prop_monoid_assoc; prop_map_id; prop_fold_commutative ] in
+  let tests =
+    [ prop_monoid_assoc; prop_map_id; prop_fold_commutative ]
+  in
   QCheck_runner.run_tests_main tests

@@ -109,7 +109,6 @@ module PrefixTree = struct
   let rec filter_tree predicate trie =
     match trie with
     | Node { value; children } ->
-        (* Проверяем значение узла *)
         let filtered_value =
           match value with Some v when predicate v -> Some v | _ -> None
         in
