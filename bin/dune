@@ -1,0 +1,4 @@
+(executable
+ (public_name functional_programming_lab2)
+ (name main)
+ (libraries prefix_tree_dict))

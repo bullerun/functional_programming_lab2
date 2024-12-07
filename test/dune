@@ -1,0 +1,8 @@
+(test
+ (name test_functional_programming_lab2)
+ (libraries ounit2 qcheck prefix_tree_dict))
+
+(test
+ (name property_tests)
+ (modules property_tests)
+ (libraries qcheck prefix_tree_dict))
