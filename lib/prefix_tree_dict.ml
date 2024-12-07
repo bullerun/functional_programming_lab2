@@ -132,7 +132,7 @@ module PrefixTree = struct
           match (v1, v2) with
           | None, None -> None
           | Some v, None | None, Some v -> Some v
-          | Some v1, Some _ -> Some v1
+          | Some v1, Some _F -> Some v1
         in
         let all_keys =
           List.map fst c1 @ List.map fst c2 |> List.sort_uniq Char.compare
