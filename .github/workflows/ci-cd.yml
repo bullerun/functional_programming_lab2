@@ -19,6 +19,7 @@ jobs:
         with:
           ocaml-compiler: 5
       - run: opam install ounit.2.2.7 dune alcotest -y
+      - run: opam install qcheck
       - run: opam exec -- dune build
       
 
