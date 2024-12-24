@@ -70,6 +70,33 @@ let test_merge _ =
   assert_equal (Some 84) (StringDict.find "key2" merged);
   assert_equal (Some 200) (StringDict.find "key3" merged)
 
+let test_merge_empty _ =
+  let empty_tree = StringDict.init () in
+  let merged = StringDict.merge empty_tree empty_tree in
+  assert_bool "" (StringDict.equal StringDict.empty merged)
+
+let test_merge_with_empty _ =
+  let tree = StringDict.insert "a" 1 StringDict.empty in
+  let empty_tree = StringDict.empty in
+  let merged = StringDict.merge tree empty_tree in
+  assert_bool "" (StringDict.equal tree merged)
+
+let test_merge_with_itself _ =
+  let tree = StringDict.insert "a" 1 StringDict.empty in
+  let merged = StringDict.merge tree StringDict.empty in
+  (* Printf.printf "\n%s" (PrefixTree.to_string string_of_int tree 0);
+     Printf.printf "\n%s" (PrefixTree.to_string string_of_int merged 0); *)
+  assert_bool "" (StringDict.equal tree merged)
+
+let test_merge_different_keys _ =
+  let tree1 = StringDict.insert "a" 1 StringDict.empty in
+  let tree2 = StringDict.insert "b" 2 StringDict.empty in
+  let merged = StringDict.merge tree1 tree2 in
+  let expected =
+    StringDict.init () |> StringDict.insert "a" 1 |> StringDict.insert "b" 2
+  in
+  assert_bool "" (StringDict.equal expected merged)
+
 let test_non_string_key _ =
   let dict = IntDict.init () in
   let dict = IntDict.insert 1 42 dict in
@@ -100,13 +127,13 @@ let test_map_change_value_string_to_int _ =
     StringDict.init ()
     |> StringDict.insert "key1" 42
     |> StringDict.insert "key2" 52
-    |> StringDict.insert "key2" 84
+    |> StringDict.insert "key3" 84
   in
   let dict =
     StringDict.init ()
     |> StringDict.insert "key1" "42"
     |> StringDict.insert "key2" "52"
-    |> StringDict.insert "key2" "84"
+    |> StringDict.insert "key3" "84"
   in
   let out_dict = StringDict.map int_of_string dict in
   assert_bool "" (StringDict.equal target_dict out_dict)
@@ -119,6 +146,10 @@ let suite =
          "test_map" >:: test_map;
          "test_fold" >:: test_fold;
          "test_filter" >:: test_filter;
+         "test_merge_empty" >:: test_merge_empty;
+         "test_merge_with_empty" >:: test_merge_with_empty;
+         "test_merge_different_keys" >:: test_merge_different_keys;
+         "test_merge_with_itself" >:: test_merge_with_itself;
          "test_merge" >:: test_merge;
          "test_non_string_key" >:: test_non_string_key;
          "test_map_change_value_int_to_string"
